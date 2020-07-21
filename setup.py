@@ -33,7 +33,7 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
     ],
-    description="Algae contains all the homework for Introduction to Algorithms (I & II) courses offered by Coursera",
+    description="Algae contains implementations of data structures and algorithms in CLRS",
     entry_points={"console_scripts": ["algae=algae.cli:main"]},
     install_requires=requirements,
     license="MIT license",

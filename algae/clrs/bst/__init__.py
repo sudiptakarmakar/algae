@@ -74,7 +74,7 @@ def postorder(root: TreeNode) -> TreeNode:
     yield root
 
 
-def search(node: TreeNode, target: int):
+def search(node: TreeNode, target: int) -> TreeNode:
     if target is None:
         return None
     if node is None or node.val == target:
@@ -83,3 +83,26 @@ def search(node: TreeNode, target: int):
         return search(node.left, target)
     else:
         return search(node.right, target)
+
+
+def search_iter(node: TreeNode, target: int) -> TreeNode:
+    if target is None:
+        return None
+    while node and node.val != target:
+        if node.val > target:
+            node = node.left
+        else:
+            node = node.right
+    return node
+
+
+def minimum(node: TreeNode) -> TreeNode:
+    while node and node.left:
+        node = node.left
+    return node
+
+
+def maximum(node: TreeNode) -> TreeNode:
+    while node and node.right:
+        node = node.right
+    return node
