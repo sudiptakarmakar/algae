@@ -132,3 +132,6 @@ ENV/
 # vscode
 .vscode/
 .history/
+
+# macOS
+.DS_Store
