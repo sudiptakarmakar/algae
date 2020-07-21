@@ -16,7 +16,7 @@ algae
 
 
 
-Algae contains all the homework for Introduction to Algorithms (I & II) courses offered by Coursera
+Algae contains implementations of data structures and algorithms in CLRS
 
 
 * Free software: MIT license
