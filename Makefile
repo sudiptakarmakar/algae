@@ -59,8 +59,7 @@ lint: venv ## check style with flake8
 	${VENV_PYTHON} -m flake8 algae tests
 
 test: venv  ## run tests quickly with virtualenv Python
-	${VENV_PYTHON} -m pytest
-	${VENV_PYTHON} -m coverage report -m
+	${VENV_PYTHON} -m pytest --cov=algae --cov-report term-missing
 
 test-all: venv ## run tests on every Python version with tox
 	${VENV_PYTHON} -m tox
