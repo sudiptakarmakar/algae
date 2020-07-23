@@ -1,0 +1,12 @@
+pytest
+coverage
+pytest-cov
+pytest-html
+black
+flake8
+tox
+sphinx
+twine
+tox-travis
+flake8-junit-report
+flake8-formatter-junit-xml
