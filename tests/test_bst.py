@@ -21,7 +21,8 @@ def init_tree():
         4     8      12     15
                 9  11
     """
-    global node_4, node_6, node_8, node_9, node_10, node_11, node_12, node_14, node_15, root
+    global node_4, node_6, node_8, node_9, node_10, node_11, node_12, node_14
+    global node_15, root
 
     node_9 = TreeNode(val=9)
     node_4 = TreeNode(val=4)
