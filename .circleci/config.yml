@@ -1,21 +1,33 @@
 version: 2.1
 
 orbs:
-  python: circleci/python@0.2.1
+    python: circleci/python@0.2.1
 
 jobs:
-  build-and-test:
-    executor: python/default
-    steps:
-      - checkout
-      - python/load-cache
-      - python/install-deps
-      - python/save-cache
-      - run:
-          command: ./manage.py test
-          name: Test
-
+    dev_tests:
+        docker:
+            - image: circleci/python:3.7
+        steps:
+            - checkout
+            - run:
+                  name: Install Dependencies
+                  command: |
+                      python -m pip install --user -r requirements_dev.txt
+            - run:
+                  name: Run Linter
+                  command: |
+                      mkdir -p reports/flake8
+                      python -m flake8 -v --format junit-xml --output-file=reports/flake8/flake8.xml algae tests
+            - run:
+                  name: Run unit tests
+                  command: |
+                      mkdir -p reports/pytest
+                      python -m pytest --cov=algae --cov-report term-missing --junitxml=reports/pytest/junit.xml --html=reports/pytest/pytest.html --self-contained-html
+            - store_test_results:
+                  path: reports
+            - store_artifacts:
+                  path: reports
 workflows:
-  main:
-    jobs:
-      - build-and-test
+    build:
+        jobs:
+            - dev_tests
