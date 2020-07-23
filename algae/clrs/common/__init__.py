@@ -16,5 +16,4 @@ class ListNode:
         self.next = None
 
     def __repr__(self):
-        nxt = f" - {self.next}" if self.next else ""
         return f"ListNode<{self.val}>"

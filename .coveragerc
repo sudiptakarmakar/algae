@@ -1,0 +1,19 @@
+[run]
+branch = True
+source = algae/clrs
+include = algae/clrs
+omit =
+    *tests*
+[report]
+exclude_lines =
+    pragma: no cover
+    if __name__ == .__main__.:
+    def __repr__
+    if self\.debug
+    raise AssertionError
+    raise NotImplementedError
+    if 0:
+ignore_errors = True
+
+[html]
+directory = htmlcov

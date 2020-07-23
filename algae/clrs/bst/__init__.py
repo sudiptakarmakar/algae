@@ -1,4 +1,4 @@
-from typing import List, Set
+from typing import List
 from algae.clrs.common import TreeNode
 
 
@@ -36,6 +36,27 @@ def insert(root: TreeNode, node: TreeNode):
         if root.right is not None:
             return insert(root.right, node)
         root.right = node
+
+
+def insert_iter(root: TreeNode, node: TreeNode):
+    parent = None
+    current = root
+    while current is not None:
+        parent = current
+        if current.val > node.val:
+            current = current.left
+        elif current.val < node.val:
+            current = current.right
+        else:
+            break
+    node.parent = parent
+    if parent is None:
+        return node
+    elif parent.val > node.val:
+        parent.left = node
+    elif parent.val < node.val:
+        parent.right = node
+    return root
 
 
 def create(node_vals: List[int], link_parent=False) -> TreeNode:
@@ -106,3 +127,23 @@ def maximum(node: TreeNode) -> TreeNode:
     while node and node.right:
         node = node.right
     return node
+
+
+def successor(node: TreeNode) -> TreeNode:
+    if node and node.right:
+        return minimum(node.right)
+    parent = node.parent
+    while parent and parent.right == node:
+        node = parent
+        parent = parent.parent
+    return parent
+
+
+def predecessor(node: TreeNode) -> TreeNode:
+    if node and node.left:
+        return maximum(node.left)
+    parent = node.parent
+    while parent and parent.left == node:
+        node = parent
+        parent = parent.parent
+    return parent

@@ -51,10 +51,10 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: ## check style with flake8
-	flake8 algae tests
+	black algae tests
 
 test: ## run tests quickly with the default Python
-	python -m pytest
+	python -m pytest --cov=algae
 
 test-all: ## run tests on every Python version with tox
 	tox
