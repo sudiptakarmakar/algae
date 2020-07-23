@@ -2,18 +2,11 @@
 algae
 =====
 
+.. image:: https://travis-ci.com/sudiptakarmakar/algae.svg
+    :target: https://travis-ci.com/sudiptakarmakar/algae
 
-.. image:: https://img.shields.io/pypi/v/algae.svg
-        :target: https://pypi.python.org/pypi/algae
-
-.. image:: https://img.shields.io/travis/sudiptakarmakar/algae.svg
-        :target: https://travis-ci.org/sudiptakarmakar/algae
-
-.. image:: https://readthedocs.org/projects/algae/badge/?version=latest
-        :target: https://algae.readthedocs.io/en/latest/?badge=latest
-        :alt: Documentation Status
-
-
+.. image:: https://circleci.com/gh/circleci/circleci-docs.svg?style=svg
+    :target: https://circleci.com/gh/circleci/circleci-docs
 
 
 Algae contains implementations of data structures and algorithms in CLRS
