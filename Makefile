@@ -1,5 +1,9 @@
 .PHONY: clean clean-test clean-pyc clean-build docs help
 .DEFAULT_GOAL := help
+# SHELL=./.activate-venv
+VENV_NAME?=${PWD}/venv
+VENV_ACTIVATE=. $(VENV_NAME)/bin/activate
+VENV_PYTHON=${VENV_NAME}/bin/python
 
 define BROWSER_PYSCRIPT
 import os, webbrowser, sys
@@ -50,15 +54,24 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr htmlcov/
 	rm -fr .pytest_cache
 
-lint: ## check style with flake8
-	black algae tests
-	flake8 algae tests
+lint: venv ## check style with flake8
+	${VENV_PYTHON} -m black algae tests
+	${VENV_PYTHON} -m flake8 algae tests
 
-test: ## run tests quickly with the default Python
-	python -m pytest --cov=algae
+test: venv  ## run tests quickly with virtualenv Python
+	${VENV_PYTHON} -m pytest --cov=algae
 
-test-all: ## run tests on every Python version with tox
-	tox
+test-all: venv ## run tests on every Python version with tox
+	${VENV_PYTHON} -m tox
+
+venv: $(VENV_NAME)/bin/activate ## create and activate virtualenv
+
+$(VENV_NAME)/bin/activate: setup.py requirements_dev.txt
+	test -d $(VENV_NAME) || virtualenv -p `which python3.7` $(VENV_NAME)
+	${VENV_PYTHON} -m pip install --upgrade pip
+	${VENV_PYTHON} -m pip install --upgrade -r requirements_dev.txt
+	${VENV_PYTHON} -m pip install -e .
+	touch $(VENV_NAME)/bin/activate
 
 coverage: ## check code coverage quickly with the default Python
 	coverage run --source algae -m pytest
@@ -66,24 +79,24 @@ coverage: ## check code coverage quickly with the default Python
 	coverage html
 	$(BROWSER) htmlcov/index.html
 
-docs: ## generate Sphinx HTML documentation, including API docs
+docs: venv ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/algae.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ algae
-	$(MAKE) -C docs clean
+	$(VENV_ACTIVATE) && sphinx-apidoc -o docs/ algae
+	$(VENV_ACTIVATE) && $(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
 servedocs: docs ## compile the docs watching for changes
 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
-release: dist ## package and upload a release
+release: venv dist ## package and upload a release
 	twine upload dist/*
 
 dist: clean ## builds source and wheel package
-	python setup.py sdist
-	python setup.py bdist_wheel
+	${VENV_PYTHON} setup.py sdist
+	${VENV_PYTHON} setup.py bdist_wheel
 	ls -l dist
 
 install: clean ## install the package to the active Python's site-packages
-	python setup.py install
+	${VENV_PYTHON} setup.py install
