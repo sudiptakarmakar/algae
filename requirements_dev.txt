@@ -1,7 +1,9 @@
 pytest
 coverage
 pytest-cov
+pytest-sugar
 black
 flake8
 tox
 sphinx
+twine

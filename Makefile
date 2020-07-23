@@ -1,6 +1,6 @@
 .PHONY: clean clean-test clean-pyc clean-build docs help
 .DEFAULT_GOAL := help
-# SHELL=./.activate-venv
+
 VENV_NAME?=${PWD}/venv
 VENV_ACTIVATE=. $(VENV_NAME)/bin/activate
 VENV_PYTHON=${VENV_NAME}/bin/python
@@ -59,7 +59,8 @@ lint: venv ## check style with flake8
 	${VENV_PYTHON} -m flake8 algae tests
 
 test: venv  ## run tests quickly with virtualenv Python
-	${VENV_PYTHON} -m pytest --cov=algae
+	${VENV_PYTHON} -m pytest
+	${VENV_PYTHON} -m coverage report -m
 
 test-all: venv ## run tests on every Python version with tox
 	${VENV_PYTHON} -m tox
@@ -74,16 +75,16 @@ $(VENV_NAME)/bin/activate: setup.py requirements_dev.txt
 	touch $(VENV_NAME)/bin/activate
 
 coverage: ## check code coverage quickly with the default Python
-	coverage run --source algae -m pytest
-	coverage report -m
-	coverage html
+	${VENV_PYTHON} -m coverage run --source algae -m pytest
+	${VENV_PYTHON} -m coverage report -m
+	${VENV_PYTHON} -m coverage html
 	$(BROWSER) htmlcov/index.html
 
 docs: venv ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/algae.rst
 	rm -f docs/modules.rst
 	$(VENV_ACTIVATE) && sphinx-apidoc -o docs/ algae
-	$(VENV_ACTIVATE) && $(MAKE) -C docs clean
+	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html
 
@@ -91,7 +92,7 @@ servedocs: docs ## compile the docs watching for changes
 	watchmedo shell-command -p '*.rst' -c '$(MAKE) -C docs html' -R -D .
 
 release: venv dist ## package and upload a release
-	twine upload dist/*
+	${VENV_PYTHON} -m twine upload dist/*
 
 dist: clean ## builds source and wheel package
 	${VENV_PYTHON} setup.py sdist
