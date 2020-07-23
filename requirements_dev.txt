@@ -7,3 +7,4 @@ flake8
 tox
 sphinx
 twine
+tox-travis
