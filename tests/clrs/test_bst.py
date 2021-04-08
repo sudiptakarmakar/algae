@@ -16,10 +16,10 @@ node_15 = None
 
 def init_tree():
     """Test tree
-                 10
-           6            14
-        4     8      12     15
-                9  11
+             10
+       6            14
+    4     8      12     15
+            9  11
     """
     global node_4, node_6, node_8, node_9, node_10, node_11, node_12, node_14
     global node_15, root
@@ -50,7 +50,8 @@ def init_tree():
 
 
 @pytest.mark.parametrize(
-    "nodes, expected", [([1, 2, 3, 4, 5, 6, 7], 1), ([4, 2, 6, 1, 3, 5, 7], 4)],
+    "nodes, expected",
+    [([1, 2, 3, 4, 5, 6, 7], 1), ([4, 2, 6, 1, 3, 5, 7], 4)],
 )
 def test_bst_create(nodes, expected):
     root = bst.create(nodes)

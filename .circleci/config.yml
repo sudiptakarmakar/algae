@@ -6,7 +6,7 @@ orbs:
 jobs:
     dev_tests:
         docker:
-            - image: circleci/python:3.7
+            - image: circleci/python:3.9
         steps:
             - checkout
             - run:
