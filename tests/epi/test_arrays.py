@@ -1,4 +1,3 @@
-import string
 import pytest
 
 from algae.epi import arrays
