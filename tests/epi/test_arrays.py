@@ -1,5 +1,7 @@
 import pytest
 
+from unittest import mock
+
 from algae.epi import arrays
 
 
@@ -191,3 +193,45 @@ def test_enumerate_primes(limit, expected):
 )
 def test_permute_array_elements(elements, permutation, expected):
     assert arrays.permute_array_elements(elements, permutation) == expected
+
+
+@pytest.mark.parametrize(
+    "permutation, expected",
+    [
+        ([6, 2, 1, 5, 4, 3, 0], [6, 2, 3, 0, 1, 4, 5]),
+        ([6, 2, 1, 5, 4, 3, 3, 3, 0], [6, 2, 3, 0, 1, 3, 3, 4, 5]),
+        ([1, 2, 3, 4, 5, 6], [1, 2, 3, 4, 6, 5]),
+        ([5, 4, 3, 2, 1, 0], []),
+        ([5], []),
+        ([5, 6], [6, 5]),
+        ([9, 9, 9, 9], []),
+    ],
+)
+def test_compute_next_permutation(permutation, expected):
+    arrays.compute_next_permutation(permutation)
+    assert permutation == expected
+
+
+@pytest.mark.parametrize(
+    "elements, size, random_indices, expected",
+    [
+        ([3, 7, 5, 11], 3, [1, 2, 3], [7, 5, 11, 3]),
+        ([1, 2, 3, 4, 5, 6], 4, [5, 1, 3, 5], [6, 2, 4, 1, 5, 3]),
+    ],
+)
+def test_sample_offline_data(elements, size, random_indices, expected):
+    """This test kind of leaks implementation details here since we are relying
+    on moderating the behavior and usage of the random module in the code. In
+    reality, that library usage should be hidden behind the abstraction. However,
+    I am not sure how to test the random expected output properly otherwise.
+    """
+    index = -1
+
+    def randint(*args):
+        nonlocal index
+        index += 1
+        return random_indices[index]
+
+    with mock.patch(f"{arrays.__name__}.random.randint", randint):
+        arrays.sample_offline_data(elements, size)
+        assert elements == expected

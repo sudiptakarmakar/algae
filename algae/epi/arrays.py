@@ -1,4 +1,5 @@
 import math
+import random
 
 from typing import List, Any
 
@@ -142,16 +143,60 @@ def permute_array_elements(elements: List[Any], permutation: List[int]):
     return result
 
 
-def compute_next_permutation():
-    pass
+def compute_next_permutation(permutation: List[int]):
+    """Write a program that takes as input a permutation, and returns the next
+    permutation under dictionary ordering. If the permutation is the last
+    permutation, return the empty array.
+    For example, if the input is (1, 0, 3, 2) your function should return
+    (1, 2, 0, 3). If the input is (3, 2, 1, 0), return ()
+    """
+    # find inflexion point
+    prev = permutation[-1]
+    index = len(permutation) - 2
+    while index >= 0:
+        current = permutation[index]
+        if current < prev:
+            break
+        prev = current
+        index -= 1
+    if index < 0:
+        permutation.clear()
+        return
+
+    # index is right before the last non increasing suffix, swap it with the
+    # smallest number larger than it to its right
+    small_index = index
+    while index < len(permutation) and permutation[index] >= permutation[small_index]:
+        index += 1
+    permutation[small_index], permutation[index - 1] = (
+        permutation[index - 1],
+        permutation[small_index],
+    )
+
+    # reverse the rightmost sorted subsection to order it ascending
+    left = small_index + 1
+    right = len(permutation) - 1
+    while left < right:
+        permutation[left], permutation[right] = permutation[right], permutation[left]
+        left += 1
+        right -= 1
 
 
-def sample_offline_data():
-    pass
+def sample_offline_data(elements: List[int], size: int):
+    """Implement an algorithm that takes as input an array of distinct elements
+    and a size, and returns a subset of the given size of the array elements.
+    All subsets should be equally likely. Return the result in input array itself.
+    """
+    length = len(elements)
+    for i in range(size):
+        index = random.randint(i, length)
+        elements[i], elements[index] = elements[index], elements[i]
 
 
 def sample_oinline_data():
-    pass
+    """Design a program that takes as input a size k, and reads packets,
+    continuously maintaining a uniform random subset of size k of the read packets.
+    """
 
 
 def compute_random_permutation():
