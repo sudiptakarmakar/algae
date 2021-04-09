@@ -1,7 +1,11 @@
 [run]
 branch = True
-source = algae/clrs
-include = algae/clrs
+source =
+    algae/clrs
+    algae/epi
+include =
+    algae/clrs
+    algae/epi
 omit =
     *tests*
 [report]
