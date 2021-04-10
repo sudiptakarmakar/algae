@@ -1,3 +1,4 @@
+import copy
 import math
 import pytest
 
@@ -418,6 +419,7 @@ def test_sudoku_checker(sudoku_rows, expected):
     assert all(len(row) == 9 for row in sudoku_rows)
     sudoku = [[int(i) for i in row] for row in sudoku_rows]
     assert arrays.sudoku_checker(sudoku) == expected
+    assert arrays.sudoku_checker_one_liner(sudoku) == expected
 
 
 @pytest.mark.parametrize(
@@ -499,5 +501,55 @@ def test_spiral_ordering_2d_array(matrix, expected):
 )
 def test_rotate_2d_array(matrix, expected):
     assert len(matrix) == len(matrix[0])
+    matrix_copy = copy.deepcopy(matrix)
+
     arrays.rotate_2d_array(matrix)
     assert matrix == expected
+
+    arrays.rotate_2d_array_improved(matrix_copy)
+    assert matrix_copy == expected
+
+
+@pytest.mark.parametrize(
+    "n, expected",
+    [
+        (
+            1,
+            [[1]],
+        ),
+        (
+            3,
+            [
+                [1],
+                [1, 1],
+                [1, 2, 1],
+            ],
+        ),
+        (
+            4,
+            [
+                [1],
+                [1, 1],
+                [1, 2, 1],
+                [1, 3, 3, 1],
+            ],
+        ),
+        (
+            10,
+            [
+                [1],
+                [1, 1],
+                [1, 2, 1],
+                [1, 3, 3, 1],
+                [1, 4, 6, 4, 1],
+                [1, 5, 10, 10, 5, 1],
+                [1, 6, 15, 20, 15, 6, 1],
+                [1, 7, 21, 35, 35, 21, 7, 1],
+                [1, 8, 28, 56, 70, 56, 28, 8, 1],
+                [1, 9, 36, 84, 126, 126, 84, 36, 9, 1],
+            ],
+        ),
+    ],
+)
+def test_compute_rows_pascals_triangle(n, expected):
+    assert arrays.compute_rows_pascals_triangle(n) == expected

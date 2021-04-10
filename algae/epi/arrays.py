@@ -1,4 +1,5 @@
 import bisect
+import collections
 import itertools
 import math
 import random
@@ -255,26 +256,6 @@ def sudoku_checker(sudoku: List[List[int]]) -> bool:
     every other entry is in [1,9].
     """
     blk_size = int(math.sqrt(len(sudoku)))
-
-    # counter = collections.Counter(
-    #     k
-    #     for r, row in enumerate(sudoku)
-    #     for c, el in enumerate(row)
-    #     if el != 0
-    #     for k in (("r", r, el), ("c", c, el), ("b", r // blk_size, c // blk_size, el))
-    # )
-
-    # counter = collections.Counter()
-    # for row, row_values in enumerate(sudoku):
-    #     for col, value in enumerate(row_values):
-    #         if value == 0:
-    #             continue
-    #         counter[(f"row-{row}", value)] += 1
-    #         counter[(f"col-{col}", value)] += 1
-    #         counter[(f"block-{row//blk_size}-{col//blk_size}", value)] += 1
-
-    # return max(counter.values(), default=0) <= 1
-
     memo = set()
     for row, row_values in enumerate(sudoku):
         for col, value in enumerate(row_values):
@@ -287,6 +268,28 @@ def sudoku_checker(sudoku: List[List[int]]) -> bool:
                 return False
             memo.update([r, c, b])
     return True
+
+
+def sudoku_checker_one_liner(sudoku: List[List[int]]) -> bool:
+    """Check whether a 9 X 9 2D array representing a partially completed Sudoku
+    is valid. Specifically, check that no row, column, or 3 X 3 2D subarray
+    contains duplicates. A 0-value in the 2D array indicates that entry is blank;
+    every other entry is in [1,9].
+    """
+    blk_size = int(math.sqrt(len(sudoku)))
+    return (
+        max(
+            collections.Counter(
+                val
+                for r, row in enumerate(sudoku)
+                for c, el in enumerate(row)
+                if el != 0
+                for val in (("r", r, el), ("c", c, el), ("b", r // blk_size, c // blk_size, el))
+            ).values(),
+            default=0,
+        )
+        <= 1
+    )
 
 
 def spiral_ordering_2d_array(matrix: List[List[int]]) -> List[int]:
@@ -315,24 +318,29 @@ def rotate_2d_array(matrix: List[List[int]]):
     """Write a function that takes as input an n X n 2D array, and rotates the
     array by 90 degrees clockwise.
     """
-    # row = 0
-    # col = 0
-    # width = len(matrix) - 1
-    # max_width = width
+    row = 0
+    col = 0
+    width = len(matrix) - 1
+    max_width = width
 
-    # while width > 0:
-    #     memo = matrix[row][col : col + width]
-    #     for row_step, col_step in ((0, 1), (1, 0), (0, -1), (-1, 0)):
-    #         for idx in range(width):
-    #             dest_row = col
-    #             dest_col = max_width - row
-    #             matrix[dest_row][dest_col], memo[idx] = memo[idx], matrix[dest_row][dest_col]
-    #             row += row_step
-    #             col += col_step
-    #     row += 1
-    #     col += 1
-    #     width -= 2
+    while width > 0:
+        memo = matrix[row][col : (col + width)]
+        for row_step, col_step in ((0, 1), (1, 0), (0, -1), (-1, 0)):
+            for idx in range(width):
+                dest_row = col
+                dest_col = max_width - row
+                matrix[dest_row][dest_col], memo[idx] = memo[idx], matrix[dest_row][dest_col]
+                row += row_step
+                col += col_step
+        row += 1
+        col += 1
+        width -= 2
 
+
+def rotate_2d_array_improved(matrix: List[List[int]]):
+    """Write a function that takes as input an n X n 2D array, and rotates the
+    array by 90 degrees clockwise.
+    """
     width = len(matrix) - 1
     for i in range(len(matrix) // 2):
         for j in range(i, width - i):
@@ -348,3 +356,11 @@ def compute_rows_pascals_triangle(n: int):
     """Write a program which takes as input a nonnegative integer n and returns
     the first n rows of Pascal's triangle.
     """
+    result = []
+    row = [1]
+    result.append(row)
+    for _ in range(1, n):
+        next_row = [1] + [a + b for a, b in zip(row, row[1:])] + [1]
+        result.append(next_row)
+        row = next_row
+    return result
