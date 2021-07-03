@@ -1,8 +1,8 @@
 import pytest
-from algae.clrs.common import TreeNode
+
 from algae.clrs import bst
 from algae.clrs.bst import BinarySearchTree
-
+from algae.clrs.common import TreeNode
 
 node_4 = None
 node_6 = None
@@ -52,8 +52,7 @@ def init_tree():
 
 
 @pytest.mark.parametrize(
-    "nodes, expected",
-    [([1, 2, 3, 4, 5, 6, 7], 1), ([4, 2, 6, 1, 3, 5, 7], 4)],
+    "nodes, expected", [([1, 2, 3, 4, 5, 6, 7], 1), ([4, 2, 6, 1, 3, 5, 7], 4)],
 )
 def test_bst_create(nodes, expected):
     root = bst.create(nodes)
@@ -126,11 +125,7 @@ def test_search(nodes, target):
 
 @pytest.mark.parametrize(
     "nodes, nonexistent",
-    [
-        ([4, 2, 6, 1, 3, 5, 7], 0),
-        ([4, 2, 6, 1, 3, 5, 7], 10),
-        ([4, 2, 6, 1, 3, 5, 7], None),
-    ],
+    [([4, 2, 6, 1, 3, 5, 7], 0), ([4, 2, 6, 1, 3, 5, 7], 10), ([4, 2, 6, 1, 3, 5, 7], None),],
 )
 def test_search_fail(nodes, nonexistent):
     root = bst.create(nodes)
@@ -157,11 +152,7 @@ def test_search_iter(nodes, target):
 
 @pytest.mark.parametrize(
     "nodes, nonexistent",
-    [
-        ([4, 2, 6, 1, 3, 5, 7], 0),
-        ([4, 2, 6, 1, 3, 5, 7], 10),
-        ([4, 2, 6, 1, 3, 5, 7], None),
-    ],
+    [([4, 2, 6, 1, 3, 5, 7], 0), ([4, 2, 6, 1, 3, 5, 7], 10), ([4, 2, 6, 1, 3, 5, 7], None),],
 )
 def test_search_iter_fail(nodes, nonexistent):
     root = bst.create(nodes)
@@ -170,11 +161,7 @@ def test_search_iter_fail(nodes, nonexistent):
 
 @pytest.mark.parametrize(
     "nodes, expected",
-    [
-        ([1, 2, 3, 4, 5, 6, 7], 1),
-        ([7, 6, 5, 4, 3, 2, 1], 1),
-        ([4, 2, 6, 1, 3, 5, 7], 1),
-    ],
+    [([1, 2, 3, 4, 5, 6, 7], 1), ([7, 6, 5, 4, 3, 2, 1], 1), ([4, 2, 6, 1, 3, 5, 7], 1),],
 )
 def test_minimum(nodes, expected):
     root = bst.create(nodes)
@@ -184,11 +171,7 @@ def test_minimum(nodes, expected):
 
 @pytest.mark.parametrize(
     "nodes, expected",
-    [
-        ([1, 2, 3, 4, 5, 6, 7], 7),
-        ([7, 6, 5, 4, 3, 2, 1], 7),
-        ([4, 2, 6, 1, 3, 5, 7], 7),
-    ],
+    [([1, 2, 3, 4, 5, 6, 7], 7), ([7, 6, 5, 4, 3, 2, 1], 7), ([4, 2, 6, 1, 3, 5, 7], 7),],
 )
 def test_maximum(nodes, expected):
     root = bst.create(nodes)
