@@ -4,7 +4,7 @@ orbs:
     python: circleci/python@0.2.1
 
 jobs:
-    dev_tests:
+    dev-tests:
         docker:
             - image: circleci/python:3.9
         steps:
@@ -22,6 +22,7 @@ jobs:
                   name: Run unit tests
                   command: |
                       mkdir -p reports/pytest
+                      python -m pip install -e .
                       python -m pytest --cov=src/algae --cov-report term-missing --junitxml=reports/pytest/junit.xml --html=reports/pytest/pytest.html --self-contained-html
             - store_test_results:
                   path: reports
@@ -30,4 +31,4 @@ jobs:
 workflows:
     build:
         jobs:
-            - dev_tests
+            - dev-tests
