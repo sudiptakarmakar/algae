@@ -55,7 +55,7 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: venv ## check style with flake8
-	${VENV_PYTHON} -m black algae tests
+	${VENV_PYTHON} -m black --line-length 100 algae tests
 	${VENV_PYTHON} -m flake8 algae tests
 
 test: venv  ## run tests quickly with virtualenv Python
