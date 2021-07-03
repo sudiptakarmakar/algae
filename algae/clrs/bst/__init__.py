@@ -1,41 +1,51 @@
 from typing import List
+
 from algae.clrs.common import TreeNode
 
 
-def insert_with_parent(root: TreeNode, node: TreeNode, link_parent=False) -> bool:
-    if root is None:
-        return ValueError("Root must not be None")
+class BinarySearchTree:
+    def __init__(self, root: TreeNode = None):
+        self.root = root
+
+    def __repr__(self):
+        return repr(f"BinarySearchTree<root={self.root.val if self.root else None}>")
+
+
+def insert(tree: BinarySearchTree, node: TreeNode, link_parent=False) -> bool:
+    if tree.root is None:
+        tree.root = node
+        node.parent = None
+        return True
+    root = tree.root
     if node.val < root.val:
-        if root.left is None:
-            root.left = node
-            if link_parent:
-                node.parent = root
-            return True
-        else:
-            return insert_with_parent(root.left, node, link_parent)
+        if root.left is not None:
+            return insert(root.left, node, link_parent)
+        root.left = node
+        if link_parent:
+            node.parent = root
+        return True
     elif node.val > root.val:
-        if root.right is None:
-            root.right = node
-            if link_parent:
-                node.parent = root
-            return True
-        else:
-            return insert_with_parent(root.right, node, link_parent)
+        if root.right is not None:
+            return insert(root.right, node, link_parent)
+        root.right = node
+        if link_parent:
+            node.parent = root
+        return True
     else:
         return False
 
 
-def insert(root: TreeNode, node: TreeNode):
-    if root is None:
-        return ValueError("Root must not be None")
-    if node.val < root.val:
-        if root.left is not None:
-            return insert(root.left, node)
-        root.left = node
-    elif node.val > root.val:
-        if root.right is not None:
-            return insert(root.right, node)
-        root.right = node
+# def insert(root: TreeNode, node: TreeNode):
+#     if root is None:
+#         return ValueError("Root must not be None")
+#     if node.val < root.val:
+#         if root.left is not None:
+#             return insert(root.left, node)
+#         root.left = node
+#     elif node.val > root.val:
+#         if root.right is not None:
+#             return insert(root.right, node)
+#         root.right = node
 
 
 def insert_iter(root: TreeNode, node: TreeNode):
@@ -59,16 +69,43 @@ def insert_iter(root: TreeNode, node: TreeNode):
     return root
 
 
-def create(node_vals: List[int], link_parent=False) -> TreeNode:
+def transplant(tree: BinarySearchTree, target: TreeNode, replacement: TreeNode):
+    """Replace subtree under `target` by subtree under replacement inclusive"""
+    parent = target.parent
+    if parent is None:
+        tree.root = replacement
+    elif target == parent.left:
+        parent.left = replacement
+    else:
+        parent.right = replacement
+    if replacement is not None:
+        replacement.parent = target.parent
+
+
+def delete(tree: BinarySearchTree, target: TreeNode):
+    if target.left is None:
+        transplant(tree, target, target.right)
+    elif target.right is None:
+        transplant(tree, target, target.left)
+    else:
+        replacement = minimum(target.right)
+        if target == replacement.parent:
+            transplant(tree, replacement, replacement.right)
+            replacement.right = target.right
+            replacement.right.parent = replacement
+        transplant(tree, target, replacement)
+        replacement.left = target.left
+        replacement.left.parent = replacement
+
+
+def create(node_vals: List[int], link_parent=True) -> BinarySearchTree:
     if not node_vals:
-        return None
+        return BinarySearchTree(root=None)
     root = TreeNode(val=node_vals[0])
+    tree = BinarySearchTree(root)
     for val in node_vals[1:]:
-        if link_parent:
-            insert_with_parent(root, TreeNode(val), link_parent)
-        else:
-            insert(root, TreeNode(val))
-    return root
+        insert(tree, TreeNode(val), link_parent)
+    return tree
 
 
 def inorder(root: TreeNode) -> TreeNode:

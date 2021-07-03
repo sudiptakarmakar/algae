@@ -1,6 +1,7 @@
 import pytest
 from algae.clrs.common import TreeNode
 from algae.clrs import bst
+from algae.clrs.bst import BinarySearchTree
 
 
 node_4 = None
@@ -12,6 +13,7 @@ node_11 = None
 node_12 = None
 node_14 = None
 node_15 = None
+tree = None
 
 
 def init_tree():
@@ -22,7 +24,7 @@ def init_tree():
                 9  11
     """
     global node_4, node_6, node_8, node_9, node_10, node_11, node_12, node_14
-    global node_15, root
+    global node_15, tree
 
     node_9 = TreeNode(val=9)
     node_4 = TreeNode(val=4)
@@ -46,7 +48,7 @@ def init_tree():
     node_6.parent = node_10
     node_14.parent = node_10
 
-    root = node_10
+    tree = BinarySearchTree(root=node_10)
 
 
 @pytest.mark.parametrize(
@@ -66,8 +68,9 @@ def test_bst_create(nodes, expected):
 )
 def test_inorder_traversal(nodes, expected):
     root = bst.create(nodes)
+    tree = BinarySearchTree(root)
     index = 0
-    for node in bst.inorder(root):
+    for node in bst.inorder(tree):
         assert node.val == expected[index]
         index += 1
 
