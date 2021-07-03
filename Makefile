@@ -55,11 +55,11 @@ clean-test: ## remove test and coverage artifacts
 	rm -fr .pytest_cache
 
 lint: venv ## check style with flake8
-	${VENV_PYTHON} -m black --line-length 100 algae tests
-	${VENV_PYTHON} -m flake8 algae tests
+	${VENV_PYTHON} -m black --line-length=100 src/algae tests
+	${VENV_PYTHON} -m flake8 src/algae tests
 
 test: venv  ## run tests quickly with virtualenv Python
-	${VENV_PYTHON} -m pytest --cov=algae --cov-report term-missing
+	${VENV_PYTHON} -m pytest --cov=src/algae --cov-report term-missing
 
 test-all: venv ## run tests on every Python version with tox
 	${VENV_PYTHON} -m tox
@@ -74,7 +74,7 @@ $(VENV_NAME)/bin/activate: setup.py requirements_dev.txt
 	touch $(VENV_NAME)/bin/activate
 
 coverage: ## check code coverage quickly with the default Python
-	${VENV_PYTHON} -m coverage run --source algae -m pytest
+	${VENV_PYTHON} -m coverage run --source src/algae -m pytest
 	${VENV_PYTHON} -m coverage report -m
 	${VENV_PYTHON} -m coverage html
 	$(BROWSER) htmlcov/index.html
@@ -82,7 +82,7 @@ coverage: ## check code coverage quickly with the default Python
 docs: venv ## generate Sphinx HTML documentation, including API docs
 	rm -f docs/algae.rst
 	rm -f docs/modules.rst
-	$(VENV_ACTIVATE) && sphinx-apidoc -o docs/ algae
+	$(VENV_ACTIVATE) && sphinx-apidoc -o docs/ src/algae
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	$(BROWSER) docs/_build/html/index.html

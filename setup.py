@@ -3,7 +3,7 @@
 
 """The setup script."""
 
-from setuptools import setup, find_packages
+from setuptools import find_packages, setup
 
 with open("README.rst") as readme_file:
     readme = readme_file.read()
@@ -17,6 +17,7 @@ setup_requirements = ["pytest-runner"]
 
 test_requirements = ["pytest"]
 
+
 setup(
     author="Sudipta Karmakar",
     author_email="sudo.karmakar@gmail.com",
@@ -25,12 +26,7 @@ setup(
         "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Natural Language :: English",
-        "Programming Language :: Python :: 2",
-        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.4",
-        "Programming Language :: Python :: 3.5",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -43,6 +39,7 @@ setup(
     include_package_data=True,
     keywords="algae",
     name="algae",
+    package_dir={"": "src"},
     packages=find_packages(include=["algae"]),
     setup_requires=setup_requirements,
     test_suite="tests",
