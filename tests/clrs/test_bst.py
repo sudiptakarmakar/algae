@@ -1,7 +1,7 @@
 import pytest
-from algae.clrs.common import TreeNode
-from algae.clrs import bst
 
+from algae.clrs import bst
+from algae.clrs.common import TreeNode
 
 node_4 = None
 node_6 = None
