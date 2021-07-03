@@ -42,11 +42,3 @@ def solve(m, start, finish):
             visited.add(neighbor)
 
     return -1
-
-
-"""
-youtube-dl --extract-audio --audio-format mp3 -o "%(title)s.%(ext)s" https://www.youtube.com/playlist?list=OLAK5uy_nRAj82ywkJ_YHiRh-sXKAbpiCiUfSx0-k
-
-youtube-dl --extract-audio --audio-format mp3 -o "%(autonumber)02d-%(title)s.%(ext)s" --autonumber-start 1
-https://www.youtube.com/playlist?list=OLAK5uy_nRAj82ywkJ_YHiRh-sXKAbpiCiUfSx0-k
-"""
