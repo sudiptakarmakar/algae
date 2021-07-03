@@ -1,5 +1,7 @@
-import pytest
 from collections import Counter
+
+import pytest
+
 from algae.clrs.bfs import Graph, bfs_explore
 
 
