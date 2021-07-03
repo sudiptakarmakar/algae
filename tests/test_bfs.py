@@ -15,7 +15,8 @@ def init_graph():
 
 
 @pytest.mark.parametrize(
-    "graph, expected", [(init_graph(), Counter((0, 1, 2, 3, 4, 5, 6, 7, 8)))],
+    "graph, expected",
+    [(init_graph(), Counter((0, 1, 2, 3, 4, 5, 6, 7, 8)))],
 )
 def test_bfs_explore(graph, expected):
     assert Counter(bfs_explore(graph)) == expected
