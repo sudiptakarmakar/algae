@@ -1,4 +1,4 @@
-from typing import List
+from typing import Generator, List
 
 from algae.clrs.common import TreeNode
 
@@ -143,7 +143,7 @@ def create(node_vals: List[int], link_parent=False) -> TreeNode:
     return root
 
 
-def inorder(root: TreeNode) -> TreeNode:
+def inorder(root: TreeNode) -> Generator[TreeNode, None, None]:
     if root is None:
         return
     yield from inorder(root.left)
@@ -151,7 +151,7 @@ def inorder(root: TreeNode) -> TreeNode:
     yield from inorder(root.right)
 
 
-def preorder(root: TreeNode) -> TreeNode:
+def preorder(root: TreeNode) -> Generator[TreeNode, None, None]:
     if root is None:
         return
     yield root
@@ -159,7 +159,7 @@ def preorder(root: TreeNode) -> TreeNode:
     yield from preorder(root.right)
 
 
-def postorder(root: TreeNode) -> TreeNode:
+def postorder(root: TreeNode) -> Generator[TreeNode, None, None]:
     if root is None:
         return
     yield from postorder(root.left)

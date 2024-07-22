@@ -3,8 +3,7 @@ import collections
 import itertools
 import math
 import random
-
-from typing import List, Any, Generator
+from typing import Any, Generator, List
 
 
 def dutch_national_flag(numbers: List[int], index: int):
@@ -234,7 +233,9 @@ def compute_random_subset(n: int):
     """
 
 
-def generate_nonuniform_random_number(numbers: List[int], probabilities: List[float]) -> int:
+def generate_nonuniform_random_number(
+    numbers: List[int], probabilities: List[float]
+) -> int:
     """You are given n numbers and corresponding probabilities P0, P1,..., Pn-1
     - which sum up to 1. Given a random number generator that produces values in
     [0,1] uniformly, how would you generate one of the n numbers according to
@@ -284,7 +285,11 @@ def sudoku_checker_one_liner(sudoku: List[List[int]]) -> bool:
                 for r, row in enumerate(sudoku)
                 for c, el in enumerate(row)
                 if el != 0
-                for val in (("r", r, el), ("c", c, el), ("b", r // blk_size, c // blk_size, el))
+                for val in (
+                    ("r", r, el),
+                    ("c", c, el),
+                    ("b", r // blk_size, c // blk_size, el),
+                )
             ).values(),
             default=0,
         )
@@ -329,7 +334,10 @@ def rotate_2d_array(matrix: List[List[int]]):
             for idx in range(width):
                 dest_row = col
                 dest_col = max_width - row
-                matrix[dest_row][dest_col], memo[idx] = memo[idx], matrix[dest_row][dest_col]
+                matrix[dest_row][dest_col], memo[idx] = (
+                    memo[idx],
+                    matrix[dest_row][dest_col],
+                )
                 row += row_step
                 col += col_step
         row += 1
