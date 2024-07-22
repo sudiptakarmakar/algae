@@ -7,14 +7,15 @@ jobs:
       - image: cimg/python:3.12
     steps:
       - checkout
-      - python/install-packages:
-          pkg-manager: pip
-          pip-dependency-file: requirements-dev.txt
+      - python/install-packages
       - run:
           name: run all tests
-          command: python -m pytest -v
+          command: python -m pytest -v --junitxml=test-results/junit.xml
       - store_test_results:
           path: test-results
+      - store_artifacts:
+          path: test-results
+          destination: test-results
 workflows:
   main:
     jobs:
