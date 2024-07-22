@@ -368,7 +368,9 @@ def test_compute_random_permutation(size, random_indices, expected):
         ),
     ],
 )
-def test_generate_nonuniform_random_number(numbers, probabilities, random_number, expected):
+def test_generate_nonuniform_random_number(
+    numbers, probabilities, random_number, expected
+):
     """This test kind of leaks implementation details here since we are relying
     on moderating the behavior and usage of the random module in the code. In
     reality, that library usage should be hidden behind the abstraction. However,
@@ -378,7 +380,9 @@ def test_generate_nonuniform_random_number(numbers, probabilities, random_number
     assert math.isclose(sum(probabilities), 1.0, rel_tol=1e-5)
 
     with mock.patch(f"{arrays.__name__}.random.random", return_value=random_number):
-        assert arrays.generate_nonuniform_random_number(numbers, probabilities) == expected
+        assert (
+            arrays.generate_nonuniform_random_number(numbers, probabilities) == expected
+        )
 
 
 @pytest.mark.parametrize(
