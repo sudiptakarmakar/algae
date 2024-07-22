@@ -4,4 +4,4 @@
 
 __author__ = """Sudipta Karmakar"""
 __email__ = "sudo.karmakar@gmail.com"
-__version__ = "0.0.1"
+__version__ = "0.0.0"
